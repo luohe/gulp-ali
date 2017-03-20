@@ -1,0 +1,70 @@
+//variable
+@import "./mixin";
+@main_color: #dcb373;
+
+.relative{
+  position: relative;
+}
+
+.clearfix:after{
+  display: block;
+  content: '';
+  height:0;
+  overflow: hidden;
+  clear: both;
+}
+
+
+.delIconAnimal{
+  -webkit-animation:delIconAnimal 0.4s ease 50ms 1 forwards ;
+  -o-animation:delIconAnimal 0.4s ease 50ms 1 forwards ;
+  animation:delIconAnimal 0.4s ease 50ms 1 forwards;
+}
+
+@keyframes delIconAnimal {
+  0% {
+      -webkit-transform: translate(50%, -50%) rotate(0deg) scale(1);
+      -moz-transform: translate(50%, -50%) rotate(0deg) scale(1);
+      -ms-transform: translate(50%, -50%) rotate(0deg) scale(1);
+      -o-transform: translate(50%, -50%) rotate(0deg) scale(1);
+      transform: translate(50%, -50%) rotate(0deg) scale(1);
+  }
+  100% {
+      -webkit-transform: translate(50%, -50%) rotate(270deg) scale(0);
+      -moz-transform: translate(50%, -50%) rotate(270deg) scale(0);
+      -ms-transform: translate(50%, -50%) rotate(270deg) scale(0);
+      -o-transform: translate(50%, -50%) rotate(270deg) scale(0);
+      transform: translate(50%, -50%) rotate(270deg) scale(0);
+  }
+}
+
+.thumbnailAnimal{
+  -webkit-animation:thumbnailAnimal 1.6s ease 0.3s 1 forwards ;
+  -o-animation:thumbnailAnimal 1.6s ease 0.3s 1 forwards ;
+  animation:thumbnailAnimal 1.6s ease 0.3s 1 forwards;
+}
+
+@keyframes thumbnailAnimal {
+  0%{
+    -webkit-transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+  30%{
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    -ms-transform: scale(0);
+    -o-transform: scale(0);
+    transform: scale(0);
+  }
+  100%{
+    padding:0;
+    .px2rem(margin-left,105);
+    width:0;
+    height:0;
+    opacity: 0;
+  }
+}
+
