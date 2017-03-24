@@ -22,6 +22,10 @@ var gulp = require('gulp'),
   named = require('vinyl-named'),
   colors = require('colors'),
   plumber = require('gulp-plumber'),
+  cache = require('gulp-cache'),
+  imagemin = require('gulp-imagemin'),
+  pngquant = require('imagemin-pngquant'),
+  smushit = require('gulp-smushit'),
   watch = require("node-watch");
 /*
  * 开发环境
@@ -76,8 +80,8 @@ var pkg = require('./package.json');
 
 
 gulp.task('copy:images', function (done) {
-  gulp.src(['src/images/**/*'])
-    .pipe(gulp.dest('dist/images'))
+  gulp.src(['src/img/**/*'])
+    .pipe(gulp.dest('dist/img'))
     .on('end', done)
     .pipe(connect.reload());
 });
@@ -147,6 +151,29 @@ gulp.task('serve',['lessmin'],function(){
       })
       .pipe(reload({stream:true}));
   });
+  var watchImg = watch('./src/img/', { recursive: false, followSymLinks: true });
+  watchImg.on('change',function (fileName) {
+    console.log(fileName);
+    var imgDir = __dirname + ("\\") + fileName;
+    var imgDist = __dirname +("\\dist\\")+ imgDir.match(/img\\.{1,}?\.(png|jpg|gif)/)[0];
+    if(fs.existsSync(imgDir)){
+      if(!fs.existsSync(imgDist)){
+        gulp.src(imgDir)
+          .pipe(cache(imagemin({
+            optimizationLevel: 5,
+            progressive: true,
+            interlaced: true,
+            multipass: true,
+            use: [pngquant()]
+          })))
+          .pipe(gulp.dest("dist/img/"));
+      }
+    }else{
+      if(fs.existsSync(imgDist)){
+        fs.unlinkSync(imgDist);
+      }
+    }
+  })
 });
 
 
@@ -197,8 +224,8 @@ gulp.task('clean', function (done) {
 });
 
 var spriteOption = {
-  spriteSheet: './dist/images/spritesheet.png',
-  pathToSpriteSheetFromCSS: '../images/spritesheet.png',
+  spriteSheet: './dist/img/spritesheet.png',
+  pathToSpriteSheetFromCSS: '../img/spritesheet.png',
   spritesmithOptions: {
     padding: 10
   }
